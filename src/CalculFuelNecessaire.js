@@ -1,18 +1,27 @@
 class CalculFuelNecessaire {
-  
-  calculFuelPourMasse(masse) {
-    var fuelNecessaire = Math.floor(masse / 3) - 2;
+
+  calculerFuelPourUneMasse(masse) {
+    var fuelNecessaire = this.calculerFuelPourUneMassePlusMasseDuFuel(masse)
     this.afficherResultatDansLaConsole(fuelNecessaire);
     return fuelNecessaire;
   }
 
-  calculFuelPourEnsemble(listeMasses) {
-    var somme = 0;
-    for (var i=0; i < listeMasses.length; i++) {
-      somme += this.calculFuelPourMasse(listeMasses[i]);
+  calculerFuelPourUneMassePlusMasseDuFuel(masse) {
+    var cumulFuelNecessaire = 0;
+    var fuelNecessairePourCetteMasse = Math.floor(masse / 3) - 2;
+    if (fuelNecessairePourCetteMasse > 0) {
+      cumulFuelNecessaire = fuelNecessairePourCetteMasse + this.calculerFuelPourUneMassePlusMasseDuFuel(fuelNecessairePourCetteMasse);
     }
-    this.afficherResultatDansLaConsole(somme);
-    return somme;
+    return cumulFuelNecessaire;
+  }
+
+  calculerFuelPourUnEnsembleDeMasses(listeMasses) {
+    var fuelTotal = 0;
+    for (var indiceMasse=0; indiceMasse < listeMasses.length; indiceMasse++) {
+      fuelTotal += this.calculerFuelPourUneMasse(listeMasses[indiceMasse]);
+    }
+    this.afficherResultatDansLaConsole(fuelTotal);
+    return fuelTotal;
   }
   
   afficherResultatDansLaConsole(resultat){
